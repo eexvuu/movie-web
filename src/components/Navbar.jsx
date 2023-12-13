@@ -13,6 +13,9 @@ function Navbar() {
   };
 
   const handleClick = () => {
+    if (query === "") {
+      return;
+    }
     navigate(`/search/${query}`);
     setQuery("");
   };
