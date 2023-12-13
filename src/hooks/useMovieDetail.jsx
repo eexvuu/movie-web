@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useReducer } from "react";
+import { API_KEY, URL } from "../api";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -24,9 +25,9 @@ function useMovieDetail(id) {
     const fetchData = async () => {
       dispatch({ type: "FETCH_START" });
       try {
-        const res = await axios.get("https://www.omdbapi.com/", {
+        const res = await axios.get(URL, {
           params: {
-            apikey: "fd8de445",
+            apikey: API_KEY,
             i: id,
           },
         });

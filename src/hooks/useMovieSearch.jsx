@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useEffect, useReducer } from "react";
+import { API_KEY, URL } from "../api";
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "FETCH_START":
-      return { ...state, loading: true, error: false };
+      return { ...state, movies: [], loading: true, error: false };
     case "FETCH_SUCCESS":
       return {
         ...state,
@@ -32,9 +33,9 @@ function useMovieSearch(query, pageNumber) {
     const fetchData = async () => {
       dispatch({ type: "FETCH_START" });
       try {
-        const res = await axios.get("https://www.omdbapi.com/", {
+        const res = await axios.get(URL, {
           params: {
-            apikey: "fd8de445",
+            apikey: API_KEY,
             s: query,
             page: pageNumber,
           },
@@ -45,7 +46,10 @@ function useMovieSearch(query, pageNumber) {
         } else {
           dispatch({
             type: "FETCH_SUCCESS",
-            payload: { movies: res.data.Search, totalResults: res.data.totalResults },
+            payload: {
+              movies: res.data.Search,
+              totalResults: res.data.totalResults,
+            },
           });
         }
       } catch (e) {
